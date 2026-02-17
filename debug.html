@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simple Widget Test</title>
+</head>
+<body>
+  <h1>Simple Widget Test</h1>
+  <p>The widget should appear in the bottom-right corner.</p>
+  
+  <script>
+    // Debug: Check if script loads
+    console.log('Page loaded');
+  </script>
+  
+  <!-- Widget -->
+  <script src="dist/chatbot.js" 
+          data-api-key="demo-key-123"
+          data-primary-color="#3b82f6"></script>
+  
+  <script>
+    // Debug: Check if widget loaded
+    setTimeout(() => {
+      console.log('ChatbotWidget defined?', typeof ChatbotWidget);
+      console.log('Custom element defined?', customElements.get('chatbot-widget'));
+      console.log('Widget in DOM?', document.querySelector('chatbot-widget'));
+    }, 1000);
+  </script>
+</body>
+</html>

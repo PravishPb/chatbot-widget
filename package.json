@@ -1,0 +1,26 @@
+{
+  "name": "chatbot-widget",
+  "version": "1.0.0",
+  "description": "Embeddable AI chatbot widget",
+  "type": "module",
+  "main": "dist/chatbot.js",
+  "scripts": {
+    "dev": "rollup -c -w",
+    "build": "rollup -c",
+    "serve": "serve ."
+  },
+  "keywords": ["chatbot", "widget", "embed", "ai"],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^25.0.7",
+    "@rollup/plugin-node-resolve": "^15.2.3",
+    "@rollup/plugin-terser": "^0.4.4",
+    "rollup": "^4.9.6",
+    "rollup-plugin-postcss": "^4.0.2",
+    "serve": "^14.2.1"
+  },
+  "dependencies": {
+    "dompurify": "^3.0.8"
+  }
+}
