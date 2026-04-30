@@ -188,6 +188,7 @@ class ChatbotWidget extends HTMLElement {
         overflow-y: auto;
         padding: 20px;
         background: var(--bg-color);
+        -webkit-overflow-scrolling: touch;
       }
       
       .chatbot-message {
@@ -461,8 +462,20 @@ class ChatbotWidget extends HTMLElement {
       
       @media (max-width: 480px) {
         .chatbot-window {
-          width: calc(100vw - 40px);
-          height: calc(100vh - 100px);
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          width: 100%;
+          height: 100%;
+          height: 100dvh;
+          max-height: none;
+          border-radius: 0;
+        }
+        
+        .chatbot-input-container {
+          padding-bottom: max(16px, env(safe-area-inset-bottom));
         }
       }
     `;
