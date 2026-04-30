@@ -276,8 +276,8 @@ class ChatbotWidget extends HTMLElement {
       
       .chatbot-input-container {
         padding: 16px;
-        background: white;
-        border-top: 1px solid #e5e7eb;
+        background: var(--bg-color);
+        border-top: 1px solid rgba(0, 0, 0, 0.1);
       }
       
       .chatbot-input-wrapper {
@@ -289,12 +289,19 @@ class ChatbotWidget extends HTMLElement {
       .chatbot-input {
         flex: 1;
         padding: 12px 16px;
-        border: 1px solid #e5e7eb;
+        border: 1px solid rgba(0, 0, 0, 0.15);
         border-radius: 24px;
         outline: none;
         font-size: 14px;
         font-family: inherit;
         transition: border-color 0.2s;
+        background: var(--bg-color);
+        color: var(--text-color);
+      }
+      
+      .chatbot-input::placeholder {
+        color: var(--text-color);
+        opacity: 0.5;
       }
       
       .chatbot-input:focus {
