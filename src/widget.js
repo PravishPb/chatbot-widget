@@ -492,11 +492,7 @@ class ChatbotWidget extends HTMLElement {
               <div class="chatbot-welcome-text">${this.config.greeting}</div>
               <div class="chatbot-welcome-subtext">Ask me anything!</div>
             </div>
-            <div class="chatbot-suggestions">
-              <button class="chatbot-suggestion-btn" data-suggestion="What services do you offer?">What services do you offer?</button>
-              <button class="chatbot-suggestion-btn" data-suggestion="How can I contact you?">How can I contact you?</button>
-              <button class="chatbot-suggestion-btn" data-suggestion="Tell me about your products">Tell me about your products</button>
-            </div>
+
           </div>
           
           <div class="chatbot-input-container">
