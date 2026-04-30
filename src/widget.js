@@ -608,12 +608,36 @@ class ChatbotWidget extends HTMLElement {
     });
     
     if (!response.ok) {
-      if (response.status === 401) {
-        throw new Error('Invalid API key');
-      } else if (response.status === 429) {
-        throw new Error('Rate limit exceeded');
+      // Get error details
+      let errorMessage = `API request failed (${response.status})`;
+      try {
+        const errorData = await response.json();
+        errorMessage = errorData.detail || errorData.message || errorMessage;
+      } catch (e) {
+        // If response is not JSON, try to get text
+        try {
+          const errorText = await response.text();
+          if (errorText) errorMessage = errorText;
+        } catch (e2) {
+          // Ignore
+        }
       }
-      throw new Error('API request failed');
+      
+      console.error('[Chatbot Widget] API Error Details:', {
+        status: response.status,
+        statusText: response.statusText,
+        message: errorMessage,
+        endpoint: `${this.config.apiUrl}/widget/chat`
+      });
+      
+      if (response.status === 401) {
+        throw new Error('Invalid API key. Please check your data-api-key attribute.');
+      } else if (response.status === 404) {
+        throw new Error('Endpoint not found. Backend may not be deployed yet.');
+      } else if (response.status === 429) {
+        throw new Error('Rate limit exceeded. Please try again later.');
+      }
+      throw new Error(errorMessage);
     }
     
     return await response.json();
@@ -662,31 +686,8 @@ class ChatbotWidget extends HTMLElement {
     const messageEl = document.createElement('div');
     messageEl.className = `chatbot-message ${role}`;
     
-    // Build message HTML
+    // Build message HTML (sources hidden)
     let messageHTML = `<div class="chatbot-message-bubble">${formatted}</div>`;
-    
-    // Add sources if available (for bot messages)
-    if (role === 'bot' && sources && sources.length > 0) {
-      messageHTML += '<div class="chatbot-sources">';
-      messageHTML += '<p class="chatbot-sources-title">📚 Sources:</p>';
-      sources.forEach((source, idx) => {
-        messageHTML += `
-          <a href="${source.url}" target="_blank" rel="noopener noreferrer" class="chatbot-source-card">
-            <div class="chatbot-source-content">
-              <span class="chatbot-source-index">[${idx + 1}]</span>
-              <div class="chatbot-source-info">
-                <p class="chatbot-source-title">${DOMPurify.sanitize(source.title || 'Source')}</p>
-                <p class="chatbot-source-url">${DOMPurify.sanitize(source.url)}</p>
-              </div>
-              <svg class="chatbot-source-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-              </svg>
-            </div>
-          </a>
-        `;
-      });
-      messageHTML += '</div>';
-    }
     
     messageEl.innerHTML = messageHTML;
     messagesContainer.appendChild(messageEl);
