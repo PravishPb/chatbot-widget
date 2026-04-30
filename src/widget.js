@@ -25,6 +25,8 @@ class ChatbotWidget extends HTMLElement {
       apiUrl: this.getAttribute('data-api-url') || 'https://ai-chatbot-backend-rds6.onrender.com/api/v1',
       position: this.getAttribute('data-position') || 'bottom-right',
       primaryColor: this.getAttribute('data-primary-color') || '#3b82f6',
+      bgColor: this.getAttribute('data-bg-color') || '#f9fafb',
+      textColor: this.getAttribute('data-text-color') || '#1f2937',
       greeting: this.getAttribute('data-greeting') || 'Hi! How can I help you?',
       title: this.getAttribute('data-title') || 'AI Assistant',
       avatar: this.getAttribute('data-avatar') || null
@@ -61,6 +63,8 @@ class ChatbotWidget extends HTMLElement {
       :host {
         --primary-color: ${this.config.primaryColor};
         --primary-hover: ${this.adjustColor(this.config.primaryColor, -20)};
+        --bg-color: ${this.config.bgColor};
+        --text-color: ${this.config.textColor};
         font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
         font-size: 14px;
         line-height: 1.5;
@@ -183,7 +187,7 @@ class ChatbotWidget extends HTMLElement {
         flex: 1;
         overflow-y: auto;
         padding: 20px;
-        background: #f9fafb;
+        background: var(--bg-color);
       }
       
       .chatbot-message {
@@ -212,7 +216,7 @@ class ChatbotWidget extends HTMLElement {
       
       .chatbot-message.bot .chatbot-message-bubble {
         background: white;
-        color: #1f2937;
+        color: var(--text-color);
         border-bottom-left-radius: 4px;
         box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
       }
@@ -729,7 +733,7 @@ customElements.define('chatbot-widget', ChatbotWidget);
     const widget = document.createElement('chatbot-widget');
     
     // Copy data attributes
-    ['api-key', 'api-url', 'position', 'primary-color', 'greeting', 'title', 'avatar'].forEach(attr => {
+    ['api-key', 'api-url', 'position', 'primary-color', 'bg-color', 'text-color', 'greeting', 'title', 'avatar'].forEach(attr => {
       const value = script.getAttribute(`data-${attr}`);
       if (value) widget.setAttribute(`data-${attr}`, value);
     });
