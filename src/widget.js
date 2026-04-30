@@ -215,10 +215,11 @@ class ChatbotWidget extends HTMLElement {
       }
       
       .chatbot-message.bot .chatbot-message-bubble {
-        background: white;
+        background: var(--bg-color);
         color: var(--text-color);
         border-bottom-left-radius: 4px;
-        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+        border: 1px solid rgba(128, 128, 128, 0.2);
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
       }
       
       /* Markdown formatting */
@@ -253,7 +254,8 @@ class ChatbotWidget extends HTMLElement {
         width: 8px;
         height: 8px;
         border-radius: 50%;
-        background: #9ca3af;
+        background: var(--text-color);
+        opacity: 0.5;
         animation: typing 1.4s infinite;
       }
       
