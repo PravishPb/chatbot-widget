@@ -494,7 +494,7 @@ class ChatbotWidget extends HTMLElement {
           <div class="chatbot-header">
             <div class="chatbot-header-content">
               <div class="chatbot-avatar">
-                ${this.config.avatar ? `<img src="${this.config.avatar}" alt="Avatar" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">` : '🤖'}
+                ${this.config.avatar ? `<img src="${this.config.avatar}" alt="Avatar" style="width:100%;height:100%;border-radius:50%;object-fit:contain;">` : '🤖'}
               </div>
               <div>
                 <div class="chatbot-title">${this.config.title}</div>
