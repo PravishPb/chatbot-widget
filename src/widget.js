@@ -487,7 +487,7 @@ class ChatbotWidget extends HTMLElement {
       <div class="chatbot-container">
         <button class="chatbot-button" id="chatbot-toggle">
           ${this.config.buttonIcon ? 
-            `<img src="${this.config.buttonIcon}" alt="Chat" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">` : 
+            `<img src="${this.config.buttonIcon}" alt="Chat" style="width:100%;height:100%;border-radius:50%;object-fit:contain;">` : 
             `<svg viewBox="0 0 24 24">
               <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H6l-2 2V4h16v12z"/>
             </svg>`
