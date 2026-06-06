@@ -168,6 +168,18 @@ class ChatbotWidget extends HTMLElement {
       .chatbot-status {
         font-size: 12px;
         opacity: 0.9;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      
+      .chatbot-status::before {
+        content: '';
+        display: inline-block;
+        width: 8px;
+        height: 8px;
+        background-color: #10b981;
+        border-radius: 50%;
       }
       
       .chatbot-close {
