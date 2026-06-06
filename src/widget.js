@@ -479,6 +479,19 @@ class ChatbotWidget extends HTMLElement {
           padding-bottom: max(16px, env(safe-area-inset-bottom));
         }
       }
+
+      .chatbot-watermark {
+        text-align: center;
+        font-size: 10px;
+        color: #9ca3af;
+        margin-top: 8px;
+        font-family: inherit;
+      }
+      
+      .chatbot-watermark strong {
+        color: var(--primary-color);
+        font-weight: 600;
+      }
     `;
   }
   
@@ -535,6 +548,9 @@ class ChatbotWidget extends HTMLElement {
                   <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
                 </svg>
               </button>
+            </div>
+            <div class="chatbot-watermark">
+              Powered by <strong>Saltbox</strong>
             </div>
           </div>
         </div>
