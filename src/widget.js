@@ -3,56 +3,60 @@
  * Creates an embeddable chatbot widget using Shadow DOM for isolation
  */
 
-import DOMPurify from 'dompurify';
+import DOMPurify from "dompurify";
 
 class ChatbotWidget extends HTMLElement {
   constructor() {
     super();
-    
+
     // Create Shadow DOM for complete isolation
-    this.attachShadow({ mode: 'open' });
-    
+    this.attachShadow({ mode: "open" });
+
     // State
     this.isOpen = false;
     this.messages = [];
     this.sessionId = null;
   }
-  
+
   connectedCallback() {
     // Configuration - read attributes here when element is in DOM
     this.config = {
-      apiKey: this.getAttribute('data-api-key') || '',
-      apiUrl: this.getAttribute('data-api-url') || 'https://ai-chatbot-backend-rds6.onrender.com/api/v1',
-      position: this.getAttribute('data-position') || 'bottom-right',
-      primaryColor: this.getAttribute('data-primary-color') || '#3b82f6',
-      bgColor: this.getAttribute('data-bg-color') || '#f9fafb',
-      textColor: this.getAttribute('data-text-color') || '#1f2937',
-      greeting: this.getAttribute('data-greeting') || 'Hi! How can I help you?',
-      title: this.getAttribute('data-title') || 'AI Assistant',
-      avatar: this.getAttribute('data-avatar') || null,
-      buttonIcon: this.getAttribute('data-button-icon') || null
+      apiKey: this.getAttribute("data-api-key") || "",
+      apiUrl:
+        this.getAttribute("data-api-url") ||
+        "https://ai-chatbot-backend-rds6.onrender.com/api/v1",
+      position: this.getAttribute("data-position") || "bottom-right",
+      primaryColor: this.getAttribute("data-primary-color") || "#3b82f6",
+      bgColor: this.getAttribute("data-bg-color") || "#f9fafb",
+      textColor: this.getAttribute("data-text-color") || "#1f2937",
+      greeting: this.getAttribute("data-greeting") || "Hi! How can I help you?",
+      title: this.getAttribute("data-title") || "AI Assistant",
+      avatar: this.getAttribute("data-avatar") || null,
+      buttonIcon: this.getAttribute("data-button-icon") || null,
     };
-    
+
     // Validate API key
     if (!this.config.apiKey) {
-      console.error('[Chatbot Widget] API key is required. Add data-api-key attribute.');
+      console.error(
+        "[Chatbot Widget] API key is required. Add data-api-key attribute.",
+      );
       return;
     }
-    
+
     this.render();
     this.attachEventListeners();
   }
-  
+
   render() {
     const styles = this.getStyles();
     const html = this.getHTML();
-    
+
     this.shadowRoot.innerHTML = `
       <style>${styles}</style>
       ${html}
     `;
   }
-  
+
   getStyles() {
     return `
       * {
@@ -73,8 +77,8 @@ class ChatbotWidget extends HTMLElement {
       
       .chatbot-container {
         position: fixed;
-        ${this.config.position.includes('right') ? 'right: 20px;' : 'left: 20px;'}
-        ${this.config.position.includes('top') ? 'top: 20px;' : 'bottom: 20px;'}
+        ${this.config.position.includes("right") ? "right: 20px;" : "left: 20px;"}
+        ${this.config.position.includes("top") ? "top: 20px;" : "bottom: 20px;"}
         z-index: 999999;
       }
       
@@ -105,8 +109,8 @@ class ChatbotWidget extends HTMLElement {
       
       .chatbot-window {
         position: absolute;
-        ${this.config.position.includes('right') ? 'right: 0;' : 'left: 0;'}
-        ${this.config.position.includes('top') ? 'top: 70px;' : 'bottom: 70px;'}
+        ${this.config.position.includes("right") ? "right: 0;" : "left: 0;"}
+        ${this.config.position.includes("top") ? "top: 70px;" : "bottom: 70px;"}
         width: 380px;
         height: 600px;
         max-height: calc(100vh - 100px);
@@ -506,14 +510,15 @@ class ChatbotWidget extends HTMLElement {
       }
     `;
   }
-  
+
   getHTML() {
     return `
       <div class="chatbot-container">
         <button class="chatbot-button" id="chatbot-toggle">
-          ${this.config.buttonIcon ? 
-            `<img src="${this.config.buttonIcon}" alt="Chat" style="width:100%;height:100%;border-radius:50%;object-fit:contain;">` : 
-            `<svg viewBox="0 0 24 24">
+          ${
+            this.config.buttonIcon
+              ? `<img src="${this.config.buttonIcon}" alt="Chat" style="width:100%;height:100%;border-radius:50%;object-fit:contain;">`
+              : `<svg viewBox="0 0 24 24">
               <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H6l-2 2V4h16v12z"/>
             </svg>`
           }
@@ -523,7 +528,7 @@ class ChatbotWidget extends HTMLElement {
           <div class="chatbot-header">
             <div class="chatbot-header-content">
               <div class="chatbot-avatar">
-                ${this.config.avatar ? `<img src="${this.config.avatar}" alt="Avatar" style="width:100%;height:100%;border-radius:50%;object-fit:contain;">` : '🤖'}
+                ${this.config.avatar ? `<img src="${this.config.avatar}" alt="Avatar" style="width:100%;height:100%;border-radius:50%;object-fit:contain;">` : "🤖"}
               </div>
               <div>
                 <div class="chatbot-title">${this.config.title}</div>
@@ -562,31 +567,31 @@ class ChatbotWidget extends HTMLElement {
               </button>
             </div>
             <div class="chatbot-watermark">
-              Powered by <strong>Saltbox</strong>
+              Powered by <strong>HarvexAI</strong>
             </div>
           </div>
         </div>
       </div>
     `;
   }
-  
+
   attachEventListeners() {
-    const toggle = this.shadowRoot.getElementById('chatbot-toggle');
-    const close = this.shadowRoot.getElementById('chatbot-close');
-    const send = this.shadowRoot.getElementById('chatbot-send');
-    const input = this.shadowRoot.getElementById('chatbot-input');
-    
-    toggle.addEventListener('click', () => this.toggleWindow());
-    close.addEventListener('click', () => this.closeWindow());
-    send.addEventListener('click', () => this.sendMessage());
-    input.addEventListener('keypress', (e) => {
-      if (e.key === 'Enter') this.sendMessage();
+    const toggle = this.shadowRoot.getElementById("chatbot-toggle");
+    const close = this.shadowRoot.getElementById("chatbot-close");
+    const send = this.shadowRoot.getElementById("chatbot-send");
+    const input = this.shadowRoot.getElementById("chatbot-input");
+
+    toggle.addEventListener("click", () => this.toggleWindow());
+    close.addEventListener("click", () => this.closeWindow());
+    send.addEventListener("click", () => this.sendMessage());
+    input.addEventListener("keypress", (e) => {
+      if (e.key === "Enter") this.sendMessage();
     });
-    
+
     // Add click handlers for suggestion buttons
-    this.shadowRoot.addEventListener('click', (e) => {
-      if (e.target.classList.contains('chatbot-suggestion-btn')) {
-        const suggestion = e.target.getAttribute('data-suggestion');
+    this.shadowRoot.addEventListener("click", (e) => {
+      if (e.target.classList.contains("chatbot-suggestion-btn")) {
+        const suggestion = e.target.getAttribute("data-suggestion");
         if (suggestion) {
           input.value = suggestion;
           this.sendMessage();
@@ -594,73 +599,76 @@ class ChatbotWidget extends HTMLElement {
       }
     });
   }
-  
+
   toggleWindow() {
     this.isOpen = !this.isOpen;
-    const window = this.shadowRoot.getElementById('chatbot-window');
-    window.classList.toggle('open', this.isOpen);
-    
+    const window = this.shadowRoot.getElementById("chatbot-window");
+    window.classList.toggle("open", this.isOpen);
+
     if (this.isOpen) {
-      this.shadowRoot.getElementById('chatbot-input').focus();
+      this.shadowRoot.getElementById("chatbot-input").focus();
     }
   }
-  
+
   closeWindow() {
     this.isOpen = false;
-    this.shadowRoot.getElementById('chatbot-window').classList.remove('open');
+    this.shadowRoot.getElementById("chatbot-window").classList.remove("open");
   }
-  
+
   async sendMessage() {
-    const input = this.shadowRoot.getElementById('chatbot-input');
+    const input = this.shadowRoot.getElementById("chatbot-input");
     const message = input.value.trim();
-    
+
     if (!message) return;
-    
+
     // Add user message
-    this.addMessage(message, 'user');
-    input.value = '';
-    
+    this.addMessage(message, "user");
+    input.value = "";
+
     // Show typing indicator
     this.showTyping();
-    
+
     try {
       // Call API
       const response = await this.callAPI(message);
-      
+
       // Remove typing indicator
       this.hideTyping();
-      
+
       // Add bot response with sources
-      this.addMessage(response.response, 'bot', response.sources || []);
-      
+      this.addMessage(response.response, "bot", response.sources || []);
+
       // Store session ID
       if (response.session_id) {
         this.sessionId = response.session_id;
       }
     } catch (error) {
       this.hideTyping();
-      this.addMessage('Sorry, I encountered an error. Please try again.', 'bot');
-      console.error('[Chatbot Widget] API Error:', error);
+      this.addMessage(
+        "Sorry, I encountered an error. Please try again.",
+        "bot",
+      );
+      console.error("[Chatbot Widget] API Error:", error);
     }
   }
-  
+
   async callAPI(message) {
     const response = await fetch(`${this.config.apiUrl}/widget/chat`, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
-        'X-API-Key': this.config.apiKey
+        "Content-Type": "application/json",
+        "X-API-Key": this.config.apiKey,
       },
       body: JSON.stringify({
         message: message,
         session_id: this.sessionId,
-        chat_history: this.messages.map(m => ({
+        chat_history: this.messages.map((m) => ({
           role: m.role,
-          content: m.content
-        }))
-      })
+          content: m.content,
+        })),
+      }),
     });
-    
+
     if (!response.ok) {
       // Get error details
       let errorMessage = `API request failed (${response.status})`;
@@ -676,83 +684,87 @@ class ChatbotWidget extends HTMLElement {
           // Ignore
         }
       }
-      
-      console.error('[Chatbot Widget] API Error Details:', {
+
+      console.error("[Chatbot Widget] API Error Details:", {
         status: response.status,
         statusText: response.statusText,
         message: errorMessage,
-        endpoint: `${this.config.apiUrl}/widget/chat`
+        endpoint: `${this.config.apiUrl}/widget/chat`,
       });
-      
+
       if (response.status === 401) {
-        throw new Error('Invalid API key. Please check your data-api-key attribute.');
+        throw new Error(
+          "Invalid API key. Please check your data-api-key attribute.",
+        );
       } else if (response.status === 404) {
-        throw new Error('Endpoint not found. Backend may not be deployed yet.');
+        throw new Error("Endpoint not found. Backend may not be deployed yet.");
       } else if (response.status === 429) {
-        throw new Error('Rate limit exceeded. Please try again later.');
+        throw new Error("Rate limit exceeded. Please try again later.");
       }
       throw new Error(errorMessage);
     }
-    
+
     return await response.json();
   }
-  
+
   formatMarkdown(text) {
     // Convert markdown-style formatting to HTML
     let formatted = text;
-    
+
     // Bold: **text** or __text__
-    formatted = formatted.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
-    formatted = formatted.replace(/__(.+?)__/g, '<strong>$1</strong>');
-    
+    formatted = formatted.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");
+    formatted = formatted.replace(/__(.+?)__/g, "<strong>$1</strong>");
+
     // Italic: *text* or _text_
-    formatted = formatted.replace(/\*(.+?)\*/g, '<em>$1</em>');
-    formatted = formatted.replace(/_(.+?)_/g, '<em>$1</em>');
-    
+    formatted = formatted.replace(/\*(.+?)\*/g, "<em>$1</em>");
+    formatted = formatted.replace(/_(.+?)_/g, "<em>$1</em>");
+
     // Code: `text`
-    formatted = formatted.replace(/`(.+?)`/g, '<code>$1</code>');
-    
+    formatted = formatted.replace(/`(.+?)`/g, "<code>$1</code>");
+
     // Line breaks
-    formatted = formatted.replace(/\n/g, '<br>');
-    
+    formatted = formatted.replace(/\n/g, "<br>");
+
     return formatted;
   }
-  
+
   addMessage(content, role, sources = []) {
     // Sanitize content to prevent XSS
     const sanitized = DOMPurify.sanitize(content);
-    
+
     // Format markdown
     const formatted = this.formatMarkdown(sanitized);
-    
+
     this.messages.push({ role, content: sanitized, sources });
-    
-    const messagesContainer = this.shadowRoot.getElementById('chatbot-messages');
-    
+
+    const messagesContainer =
+      this.shadowRoot.getElementById("chatbot-messages");
+
     // Remove welcome message if exists
-    const welcome = messagesContainer.querySelector('.chatbot-welcome');
+    const welcome = messagesContainer.querySelector(".chatbot-welcome");
     if (welcome) welcome.remove();
-    
+
     // Remove suggested actions if exists
-    const suggestions = messagesContainer.querySelector('.chatbot-suggestions');
+    const suggestions = messagesContainer.querySelector(".chatbot-suggestions");
     if (suggestions) suggestions.remove();
-    
-    const messageEl = document.createElement('div');
+
+    const messageEl = document.createElement("div");
     messageEl.className = `chatbot-message ${role}`;
-    
+
     // Build message HTML (sources hidden)
     let messageHTML = `<div class="chatbot-message-bubble">${formatted}</div>`;
-    
+
     messageEl.innerHTML = messageHTML;
     messagesContainer.appendChild(messageEl);
     messagesContainer.scrollTop = messagesContainer.scrollHeight;
   }
-  
+
   showTyping() {
-    const messagesContainer = this.shadowRoot.getElementById('chatbot-messages');
-    const typing = document.createElement('div');
-    typing.className = 'chatbot-message bot';
-    typing.id = 'typing-indicator';
+    const messagesContainer =
+      this.shadowRoot.getElementById("chatbot-messages");
+    const typing = document.createElement("div");
+    typing.className = "chatbot-message bot";
+    typing.id = "typing-indicator";
     typing.innerHTML = `
       <div class="chatbot-message-bubble chatbot-typing">
         <span></span><span></span><span></span>
@@ -761,12 +773,12 @@ class ChatbotWidget extends HTMLElement {
     messagesContainer.appendChild(typing);
     messagesContainer.scrollTop = messagesContainer.scrollHeight;
   }
-  
+
   hideTyping() {
-    const typing = this.shadowRoot.getElementById('typing-indicator');
+    const typing = this.shadowRoot.getElementById("typing-indicator");
     if (typing) typing.remove();
   }
-  
+
   adjustColor(color, amount) {
     // Simple color adjustment for hover states
     return color;
@@ -774,20 +786,31 @@ class ChatbotWidget extends HTMLElement {
 }
 
 // Register custom element
-customElements.define('chatbot-widget', ChatbotWidget);
+customElements.define("chatbot-widget", ChatbotWidget);
 
 // Auto-initialize from script tag
-(function() {
+(function () {
   const script = document.currentScript;
   if (script) {
-    const widget = document.createElement('chatbot-widget');
-    
+    const widget = document.createElement("chatbot-widget");
+
     // Copy data attributes
-    ['api-key', 'api-url', 'position', 'primary-color', 'bg-color', 'text-color', 'greeting', 'title', 'avatar', 'button-icon'].forEach(attr => {
+    [
+      "api-key",
+      "api-url",
+      "position",
+      "primary-color",
+      "bg-color",
+      "text-color",
+      "greeting",
+      "title",
+      "avatar",
+      "button-icon",
+    ].forEach((attr) => {
       const value = script.getAttribute(`data-${attr}`);
       if (value) widget.setAttribute(`data-${attr}`, value);
     });
-    
+
     document.body.appendChild(widget);
   }
 })();
